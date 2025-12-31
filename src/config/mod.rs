@@ -5,6 +5,7 @@
 
 mod types;
 
+#[allow(unused_imports)]
 pub use types::{Config, Display, Limits};
 
 use crate::error::{ChronicleError, Result};

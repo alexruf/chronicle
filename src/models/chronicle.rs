@@ -1,7 +1,7 @@
 use chrono::{DateTime, NaiveDate, Utc};
 use serde::{Deserialize, Serialize};
 
-use super::source::{ChangeKind, Note, Repository, Todo, TodoStatus};
+use super::source::{ChangeKind, Note, Repository, Todo};
 
 /// Aggregate chronicle for a specific date/time range
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -75,7 +75,7 @@ mod tests {
     use super::*;
     use std::path::PathBuf;
 
-    use crate::models::source::{Branch, Commit};
+    use crate::models::source::{Branch, Commit, TodoStatus};
 
     #[test]
     fn test_chronicle_stats_empty() {

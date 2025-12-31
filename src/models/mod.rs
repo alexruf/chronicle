@@ -6,5 +6,5 @@
 pub mod chronicle;
 pub mod source;
 
-pub use chronicle::{Chronicle, ChronicleStats};
+pub use chronicle::Chronicle;
 pub use source::{Branch, ChangeKind, Commit, Note, Repository, Todo, TodoStatus};

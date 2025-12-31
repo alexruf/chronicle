@@ -13,6 +13,7 @@ pub enum ChronicleError {
     Collector(String),
 
     #[error("Renderer error: {0}")]
+    #[allow(dead_code)]
     Renderer(String),
 
     #[error("IO error: {0}")]

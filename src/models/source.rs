@@ -64,6 +64,7 @@ impl Repository {
     }
 
     /// Total number of unique files changed across all commits
+    #[allow(dead_code)]
     pub fn files_changed(&self) -> usize {
         let mut files = std::collections::HashSet::new();
         for branch in &self.branches {
