@@ -127,7 +127,7 @@ fn test_gen_dry_run() {
     // Update config to include the test repo
     let config_content = fs::read_to_string(&config_path).unwrap();
     let updated_config = config_content.replace(
-        "repos = []",
+        "repos = [\".\"]",
         &format!("repos = [\"{}\"]", repo_path.display()),
     );
     fs::write(&config_path, updated_config).unwrap();
@@ -173,7 +173,7 @@ fn test_gen_and_show_latest() {
             &format!("output_dir = \"{}\"", chronicles_dir.display()),
         )
         .replace(
-            "repos = []",
+            "repos = [\".\"]",
             &format!("repos = [\"{}\"]", repo_path.display()),
         );
     fs::write(&config_path, updated_config).unwrap();
@@ -286,7 +286,7 @@ fn test_incremental_updates() {
             &format!("output_dir = \"{}\"", chronicles_dir.display()),
         )
         .replace(
-            "repos = []",
+            "repos = [\".\"]",
             &format!("repos = [\"{}\"]", repo_path.display()),
         );
     fs::write(&config_path, updated_config).unwrap();

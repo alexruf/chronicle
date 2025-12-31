@@ -54,7 +54,7 @@ impl Default for Config {
         Self {
             output_dir: PathBuf::from("./chronicles"),
             state_file: PathBuf::from("./.chronicle-state.json"),
-            repos: Vec::new(),
+            repos: vec![PathBuf::from(".")],
             todo_files: Vec::new(),
             notes_dirs: Vec::new(),
             limits: Limits::default(),
@@ -88,6 +88,7 @@ mod tests {
     fn test_config_default() {
         let config = Config::default();
         assert_eq!(config.output_dir, PathBuf::from("./chronicles"));
+        assert_eq!(config.repos, vec![PathBuf::from(".")]);
         assert_eq!(config.limits.max_commits, 50);
         assert_eq!(config.limits.max_changed_files, 80);
         assert_eq!(config.limits.max_note_files, 30);

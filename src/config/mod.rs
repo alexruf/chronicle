@@ -91,7 +91,7 @@ mod tests {
         save(&config, &config_path).unwrap();
         let loaded = load(&config_path).unwrap();
 
-        assert_eq!(loaded.repos.len(), 1);
+        assert_eq!(loaded.repos.len(), 2); // "." + "/test/repo"
         assert_eq!(loaded.todo_files.len(), 1);
     }
 }

@@ -49,11 +49,19 @@ impl<'a> GitCollector<'a> {
         since: DateTime<Utc>,
     ) -> Result<Option<Repository>> {
         let git_repo = self.open_repository(repo_path)?;
-        let repo_name = repo_path
-            .file_name()
-            .and_then(|n| n.to_str())
-            .unwrap_or("unknown")
-            .to_string();
+
+        // Derive repository name from path, handling relative paths like "."
+        let repo_name = if repo_path == Path::new(".") {
+            // For ".", use the current directory name
+            std::env::current_dir()
+                .ok()
+                .and_then(|p| p.file_name().and_then(|n| n.to_str()).map(|s| s.to_string()))
+                .unwrap_or_else(|| "unknown".to_string())
+        } else if let Some(name) = repo_path.file_name().and_then(|n| n.to_str()) {
+            name.to_string()
+        } else {
+            "unknown".to_string()
+        };
 
         // Get default branch (HEAD reference)
         let head = git_repo.head().map_err(|e| {
@@ -469,7 +477,8 @@ mod tests {
 
     #[test]
     fn test_collect_from_empty_config() {
-        let config = Config::default();
+        let mut config = Config::default();
+        config.repos = vec![]; // Override default to test empty repos
         let collector = GitCollector::new(&config);
         let mut state = State::default();
         let since = Utc::now();
@@ -484,7 +493,7 @@ mod tests {
         let (_temp_dir, repo_path) = create_test_repo();
 
         let mut config = Config::default();
-        config.repos.push(repo_path.clone());
+        config.repos = vec![repo_path.clone()]; // Only test repo, not default "."
 
         let collector = GitCollector::new(&config);
         let mut state = State::default();
