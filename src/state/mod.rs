@@ -5,7 +5,7 @@
 
 pub mod types;
 
-pub use types::{SourceState, State};
+pub use types::{BranchState, SourceState, State};
 
 use crate::error::{ChronicleError, Result};
 use chrono::Utc;

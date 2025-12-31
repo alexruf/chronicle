@@ -4,3 +4,7 @@
 //! - GitCollector: Extract commits and branches from Git repositories
 //! - TodoCollector: Parse TODO/Inbox markdown files
 //! - NotesCollector: Scan note directories for modified files
+
+pub mod git;
+
+pub use git::GitCollector;
