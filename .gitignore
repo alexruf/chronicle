@@ -1,0 +1,20 @@
+# Rust
+/target
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Chronicle output (don't commit generated chronicles)
+/chronicles/
+.chronicle-state.json
+
+# Editor backups
+*~
+*.swp
+*.swo
