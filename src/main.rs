@@ -29,6 +29,43 @@ enum Commands {
         #[command(subcommand)]
         command: StateCommands,
     },
+    /// Generate a daily chronicle
+    Gen {
+        /// Path to config file
+        #[arg(short, long)]
+        config: Option<PathBuf>,
+
+        /// Date for the chronicle (defaults to today)
+        #[arg(long)]
+        date: Option<String>,
+
+        /// Custom since timestamp (defaults to last run or 24h ago)
+        #[arg(long)]
+        since: Option<String>,
+
+        /// Only collect from specific sources (git, todos, notes)
+        #[arg(long)]
+        only: Option<String>,
+
+        /// Dry run - print to stdout instead of writing file
+        #[arg(long)]
+        dry_run: bool,
+    },
+    /// Show commands
+    Show {
+        #[command(subcommand)]
+        command: ShowCommands,
+    },
+}
+
+#[derive(Subcommand)]
+enum ShowCommands {
+    /// Display the most recent chronicle
+    Latest {
+        /// Path to config file
+        #[arg(short, long)]
+        config: Option<PathBuf>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -60,6 +97,16 @@ fn main() {
         },
         Commands::State { command } => match command {
             StateCommands::Reset { config } => cli::state::reset(config),
+        },
+        Commands::Gen {
+            config,
+            date,
+            since,
+            only,
+            dry_run,
+        } => cli::gen::run(config, date, since, only, dry_run),
+        Commands::Show { command } => match command {
+            ShowCommands::Latest { config } => cli::show::latest(config),
         },
     };
 

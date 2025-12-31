@@ -7,4 +7,6 @@
 //! - state reset: Reset state tracking
 
 pub mod config;
+pub mod gen;
+pub mod show;
 pub mod state;
