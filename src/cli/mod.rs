@@ -5,3 +5,6 @@
 //! - gen: Generate daily chronicle
 //! - show latest: Display most recent chronicle
 //! - state reset: Reset state tracking
+
+pub mod config;
+pub mod state;
