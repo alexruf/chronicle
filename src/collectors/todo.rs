@@ -28,7 +28,11 @@ impl<'a> TodoCollector<'a> {
                     all_todos.extend(todos);
                 }
                 Err(e) => {
-                    eprintln!("Warning: Skipping TODO file '{}': {}", todo_file.display(), e);
+                    eprintln!(
+                        "Warning: Skipping TODO file '{}': {}",
+                        todo_file.display(),
+                        e
+                    );
                 }
             }
         }
@@ -126,7 +130,8 @@ impl<'a> TodoCollector<'a> {
 
         if let Some(prev_hashes) = previous_hashes {
             // Build map of previous todos by hash
-            let prev_map: HashMap<String, ()> = prev_hashes.iter().map(|h| (h.clone(), ())).collect();
+            let prev_map: HashMap<String, ()> =
+                prev_hashes.iter().map(|h| (h.clone(), ())).collect();
 
             for todo in todos.iter_mut() {
                 let hash = self.hash_todo(todo);

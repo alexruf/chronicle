@@ -27,8 +27,9 @@ pub fn run(
 
     // Parse date (default to today)
     let chronicle_date = if let Some(date_str) = date {
-        NaiveDate::parse_from_str(&date_str, "%Y-%m-%d")
-            .map_err(|e| crate::error::ChronicleError::Config(format!("Invalid date format: {}", e)))?
+        NaiveDate::parse_from_str(&date_str, "%Y-%m-%d").map_err(|e| {
+            crate::error::ChronicleError::Config(format!("Invalid date format: {}", e))
+        })?
     } else {
         Local::now().date_naive()
     };

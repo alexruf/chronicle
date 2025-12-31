@@ -31,7 +31,10 @@ pub fn init(path: Option<PathBuf>) -> Result<()> {
 
     println!("Configuration file created: {}", config_path.display());
     println!("\nNext steps:");
-    println!("1. Edit {} to configure your repositories and files", config_path.display());
+    println!(
+        "1. Edit {} to configure your repositories and files",
+        config_path.display()
+    );
     println!("2. Run 'chronicle gen' to generate your first chronicle");
 
     Ok(())

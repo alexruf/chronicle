@@ -92,7 +92,11 @@ fn test_state_reset() {
     fs::write(&config_path, updated_config).unwrap();
 
     // Create dummy state file
-    fs::write(&state_file, r#"{"version":"1.0","last_updated":"2024-01-01T00:00:00Z","sources":{}}"#).unwrap();
+    fs::write(
+        &state_file,
+        r#"{"version":"1.0","last_updated":"2024-01-01T00:00:00Z","sources":{}}"#,
+    )
+    .unwrap();
 
     // Reset state
     Command::cargo_bin("chronicle")

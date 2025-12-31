@@ -23,7 +23,11 @@ impl<'a> Renderer<'a> {
         let mut output = String::new();
 
         // Header
-        output.push_str(&self.render_header(&chronicle.date, chronicle.generated_at, chronicle.since));
+        output.push_str(&self.render_header(
+            &chronicle.date,
+            chronicle.generated_at,
+            chronicle.since,
+        ));
         output.push_str("\n\n");
 
         // Summary
@@ -52,12 +56,23 @@ impl<'a> Renderer<'a> {
     }
 
     /// Render header section
-    fn render_header(&self, date: &NaiveDate, generated_at: DateTime<Utc>, since: DateTime<Utc>) -> String {
+    fn render_header(
+        &self,
+        date: &NaiveDate,
+        generated_at: DateTime<Utc>,
+        since: DateTime<Utc>,
+    ) -> String {
         let mut output = String::new();
 
         output.push_str(&format!("# Chronicle: {}\n\n", date.format("%Y-%m-%d")));
-        output.push_str(&format!("**Generated:** {}\n", generated_at.format("%Y-%m-%d %H:%M:%S UTC")));
-        output.push_str(&format!("**Since:** {}", since.format("%Y-%m-%d %H:%M:%S UTC")));
+        output.push_str(&format!(
+            "**Generated:** {}\n",
+            generated_at.format("%Y-%m-%d %H:%M:%S UTC")
+        ));
+        output.push_str(&format!(
+            "**Since:** {}",
+            since.format("%Y-%m-%d %H:%M:%S UTC")
+        ));
 
         output
     }
@@ -74,7 +89,10 @@ impl<'a> Renderer<'a> {
         output.push_str(&format!("| Commits | {} |\n", stats.commit_count));
         output.push_str(&format!("| New Branches | {} |\n", stats.new_branch_count));
         output.push_str(&format!("| New TODOs | {} |\n", stats.todos_new));
-        output.push_str(&format!("| Completed TODOs | {} |\n", stats.todos_completed));
+        output.push_str(&format!(
+            "| Completed TODOs | {} |\n",
+            stats.todos_completed
+        ));
         output.push_str(&format!("| Note Updates | {} |", stats.notes_count));
 
         output
@@ -131,11 +149,12 @@ impl<'a> Renderer<'a> {
             _ => "",
         };
 
-        let ahead_behind = if branch.name != default_branch && (branch.ahead > 0 || branch.behind > 0) {
-            format!(" (ahead {}, behind {})", branch.ahead, branch.behind)
-        } else {
-            String::new()
-        };
+        let ahead_behind =
+            if branch.name != default_branch && (branch.ahead > 0 || branch.behind > 0) {
+                format!(" (ahead {}, behind {})", branch.ahead, branch.behind)
+            } else {
+                String::new()
+            };
 
         output.push_str(&format!(
             "#### `{}`{}{}\n\n",
@@ -158,15 +177,14 @@ impl<'a> Renderer<'a> {
             }
 
             // Changed files
-            let all_files: std::collections::HashSet<_> = branch
-                .commits
-                .iter()
-                .flat_map(|c| &c.files)
-                .collect();
+            let all_files: std::collections::HashSet<_> =
+                branch.commits.iter().flat_map(|c| &c.files).collect();
 
             if !all_files.is_empty() {
                 output.push_str("\n");
-                output.push_str(&self.render_changed_files(&all_files.into_iter().collect::<Vec<_>>()));
+                output.push_str(
+                    &self.render_changed_files(&all_files.into_iter().collect::<Vec<_>>()),
+                );
             }
         }
 
@@ -182,14 +200,20 @@ impl<'a> Renderer<'a> {
         let display_count = file_count.min(max_files);
 
         output.push_str("<details>\n");
-        output.push_str(&format!("<summary>Changed files ({})</summary>\n\n", file_count));
+        output.push_str(&format!(
+            "<summary>Changed files ({})</summary>\n\n",
+            file_count
+        ));
 
         for file in files.iter().take(display_count) {
             output.push_str(&format!("- `{}`\n", file.display()));
         }
 
         if file_count > max_files {
-            output.push_str(&format!("\n*... and {} more files*\n", file_count - max_files));
+            output.push_str(&format!(
+                "\n*... and {} more files*\n",
+                file_count - max_files
+            ));
         }
 
         output.push_str("\n</details>\n");
@@ -265,8 +289,15 @@ impl<'a> Renderer<'a> {
         };
 
         let mut output = String::new();
-        output.push_str(&format!("### `{}`{}\n\n", note.path.display(), change_marker));
-        output.push_str(&format!("*Modified: {}*\n\n", note.modified_at.format("%Y-%m-%d %H:%M:%S UTC")));
+        output.push_str(&format!(
+            "### `{}`{}\n\n",
+            note.path.display(),
+            change_marker
+        ));
+        output.push_str(&format!(
+            "*Modified: {}*\n\n",
+            note.modified_at.format("%Y-%m-%d %H:%M:%S UTC")
+        ));
         output.push_str(&format!("{}\n", note.excerpt));
 
         output
@@ -456,4 +487,3 @@ mod tests {
         assert!(!output.contains("Alice"));
     }
 }
-

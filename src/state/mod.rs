@@ -45,11 +45,7 @@ pub fn save(state: &State, path: &Path) -> Result<()> {
 
     let json = serde_json::to_string_pretty(&updated_state)?;
     fs::write(path, json).map_err(|e| {
-        ChronicleError::State(format!(
-            "Cannot write state to '{}': {}",
-            path.display(),
-            e
-        ))
+        ChronicleError::State(format!("Cannot write state to '{}': {}", path.display(), e))
     })?;
 
     Ok(())
@@ -107,7 +103,11 @@ mod tests {
     #[test]
     fn test_save_creates_parent_directory() {
         let temp_dir = TempDir::new().unwrap();
-        let state_path = temp_dir.path().join("nested").join("dir").join("state.json");
+        let state_path = temp_dir
+            .path()
+            .join("nested")
+            .join("dir")
+            .join("state.json");
 
         let state = State::default();
         save(&state, &state_path).unwrap();

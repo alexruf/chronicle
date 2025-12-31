@@ -41,16 +41,8 @@ impl Chronicle {
     /// Compute summary statistics from the chronicle data
     pub fn stats(&self) -> ChronicleStats {
         let repo_count = self.repositories.len();
-        let commit_count = self
-            .repositories
-            .iter()
-            .map(|r| r.commit_count())
-            .sum();
-        let new_branch_count = self
-            .repositories
-            .iter()
-            .map(|r| r.new_branch_count())
-            .sum();
+        let commit_count = self.repositories.iter().map(|r| r.commit_count()).sum();
+        let new_branch_count = self.repositories.iter().map(|r| r.new_branch_count()).sum();
 
         let todos_new = self
             .todos
@@ -58,11 +50,7 @@ impl Chronicle {
             .filter(|t| t.change == ChangeKind::New)
             .count();
 
-        let todos_completed = self
-            .todos
-            .iter()
-            .filter(|t| t.was_completed())
-            .count();
+        let todos_completed = self.todos.iter().filter(|t| t.was_completed()).count();
 
         let notes_count = self.notes.len();
 

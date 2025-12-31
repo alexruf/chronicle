@@ -71,10 +71,14 @@ impl<'a> GitCollector<'a> {
         };
 
         // Collect branches with commits
-        let branches = self.collect_branches(&git_repo, &default_branch, state, since, repo_path)?;
+        let branches =
+            self.collect_branches(&git_repo, &default_branch, state, since, repo_path)?;
 
         // Filter out branches with no commits
-        let branches: Vec<Branch> = branches.into_iter().filter(|b| !b.commits.is_empty()).collect();
+        let branches: Vec<Branch> = branches
+            .into_iter()
+            .filter(|b| !b.commits.is_empty())
+            .collect();
 
         if branches.is_empty() {
             return Ok(None);
@@ -124,18 +128,19 @@ impl<'a> GitCollector<'a> {
         };
 
         // Iterate through all local branches
-        let git_branches = repo.branches(Some(BranchType::Local)).map_err(|e| {
-            ChronicleError::Collector(format!("Failed to list branches: {}", e))
-        })?;
+        let git_branches = repo
+            .branches(Some(BranchType::Local))
+            .map_err(|e| ChronicleError::Collector(format!("Failed to list branches: {}", e)))?;
 
         for branch_result in git_branches {
-            let (branch, _) = branch_result.map_err(|e| {
-                ChronicleError::Collector(format!("Failed to get branch: {}", e))
-            })?;
+            let (branch, _) = branch_result
+                .map_err(|e| ChronicleError::Collector(format!("Failed to get branch: {}", e)))?;
 
             let branch_name = branch
                 .name()
-                .map_err(|e| ChronicleError::Collector(format!("Failed to get branch name: {}", e)))?
+                .map_err(|e| {
+                    ChronicleError::Collector(format!("Failed to get branch name: {}", e))
+                })?
                 .unwrap_or("unknown")
                 .to_string();
 
@@ -182,9 +187,9 @@ impl<'a> GitCollector<'a> {
         branch_oid: Oid,
         since: DateTime<Utc>,
     ) -> Result<Vec<Commit>> {
-        let mut revwalk = repo.revwalk().map_err(|e| {
-            ChronicleError::Collector(format!("Failed to create revwalk: {}", e))
-        })?;
+        let mut revwalk = repo
+            .revwalk()
+            .map_err(|e| ChronicleError::Collector(format!("Failed to create revwalk: {}", e)))?;
 
         revwalk.push(branch_oid).map_err(|e| {
             ChronicleError::Collector(format!("Failed to push branch to revwalk: {}", e))
@@ -202,15 +207,15 @@ impl<'a> GitCollector<'a> {
                 ChronicleError::Collector(format!("Failed to get commit OID: {}", e))
             })?;
 
-            let git_commit = repo.find_commit(oid).map_err(|e| {
-                ChronicleError::Collector(format!("Failed to find commit: {}", e))
-            })?;
+            let git_commit = repo
+                .find_commit(oid)
+                .map_err(|e| ChronicleError::Collector(format!("Failed to find commit: {}", e)))?;
 
             // Check if commit is within time range
-            let commit_time = Utc.timestamp_opt(git_commit.time().seconds(), 0).single()
-                .ok_or_else(|| {
-                    ChronicleError::Collector("Invalid commit timestamp".to_string())
-                })?;
+            let commit_time = Utc
+                .timestamp_opt(git_commit.time().seconds(), 0)
+                .single()
+                .ok_or_else(|| ChronicleError::Collector("Invalid commit timestamp".to_string()))?;
 
             if commit_time < since {
                 break;
@@ -254,20 +259,15 @@ impl<'a> GitCollector<'a> {
     ) -> Result<Vec<PathBuf>> {
         let mut files = Vec::new();
 
-        let commit_tree = commit.tree().map_err(|e| {
-            ChronicleError::Collector(format!("Failed to get commit tree: {}", e))
-        })?;
+        let commit_tree = commit
+            .tree()
+            .map_err(|e| ChronicleError::Collector(format!("Failed to get commit tree: {}", e)))?;
 
-        let parent_tree = commit
-            .parent(0)
-            .ok()
-            .and_then(|p| p.tree().ok());
+        let parent_tree = commit.parent(0).ok().and_then(|p| p.tree().ok());
 
         let diff = repo
             .diff_tree_to_tree(parent_tree.as_ref(), Some(&commit_tree), None)
-            .map_err(|e| {
-                ChronicleError::Collector(format!("Failed to create diff: {}", e))
-            })?;
+            .map_err(|e| ChronicleError::Collector(format!("Failed to create diff: {}", e)))?;
 
         diff.foreach(
             &mut |delta, _| {
@@ -287,9 +287,7 @@ impl<'a> GitCollector<'a> {
             None,
             None,
         )
-        .map_err(|e| {
-            ChronicleError::Collector(format!("Failed to iterate diff: {}", e))
-        })?;
+        .map_err(|e| ChronicleError::Collector(format!("Failed to iterate diff: {}", e)))?;
 
         Ok(files)
     }
@@ -305,7 +303,10 @@ impl<'a> GitCollector<'a> {
         let base_ref = repo
             .find_branch(base_branch, BranchType::Local)
             .map_err(|e| {
-                ChronicleError::Collector(format!("Failed to find base branch {}: {}", base_branch, e))
+                ChronicleError::Collector(format!(
+                    "Failed to find base branch {}: {}",
+                    base_branch, e
+                ))
             })?;
         let base_oid = base_ref.get().target().ok_or_else(|| {
             ChronicleError::Collector(format!("Base branch {} has no target", base_branch))
@@ -324,9 +325,11 @@ impl<'a> GitCollector<'a> {
         })?;
 
         // Calculate ahead/behind
-        let (ahead, behind) = repo.graph_ahead_behind(compare_oid, base_oid).map_err(|e| {
-            ChronicleError::Collector(format!("Failed to calculate ahead/behind: {}", e))
-        })?;
+        let (ahead, behind) = repo
+            .graph_ahead_behind(compare_oid, base_oid)
+            .map_err(|e| {
+                ChronicleError::Collector(format!("Failed to calculate ahead/behind: {}", e))
+            })?;
 
         Ok((ahead, behind))
     }

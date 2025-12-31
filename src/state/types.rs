@@ -102,9 +102,7 @@ mod tests {
         let parsed: SourceState = serde_json::from_str(&json).unwrap();
 
         match parsed {
-            SourceState::Git {
-                default_branch, ..
-            } => {
+            SourceState::Git { default_branch, .. } => {
                 assert_eq!(default_branch, "main");
             }
             _ => panic!("Expected Git variant"),
