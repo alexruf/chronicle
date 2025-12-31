@@ -401,7 +401,7 @@ impl<'a> GitCollector<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::config::{Config, Display, Limits};
+    use crate::config::Config;
     use std::process::Command;
     use tempfile::TempDir;
 
