@@ -94,8 +94,8 @@ pub fn run(
     let markdown = renderer.render(&chronicle);
 
     if dry_run {
-        // Print to stdout
-        println!("{}", markdown);
+        // Print to stdout with rich terminal formatting (if supported)
+        crate::display::print_markdown(&markdown);
     } else {
         // Write to file
         let filename = format!("chronicle-{}.md", chronicle_date.format("%Y-%m-%d"));

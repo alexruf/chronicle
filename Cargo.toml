@@ -13,6 +13,7 @@ walkdir = "2.4"
 git2 = "0.18"
 anyhow = "1.0"
 thiserror = "1.0"
+termimad = "0.30"
 
 [dev-dependencies]
 insta = "1.34"

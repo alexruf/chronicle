@@ -14,9 +14,9 @@ pub fn latest(config_path: Option<PathBuf>) -> Result<()> {
     // Find latest chronicle file
     let latest_file = find_latest_chronicle(&config.output_dir)?;
 
-    // Read and display
+    // Read and display with rich terminal formatting (if supported)
     let content = fs::read_to_string(&latest_file)?;
-    println!("{}", content);
+    crate::display::print_markdown(&content);
 
     Ok(())
 }

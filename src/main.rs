@@ -1,6 +1,7 @@
 mod cli;
 mod collectors;
 mod config;
+mod display;
 mod error;
 mod models;
 mod renderer;

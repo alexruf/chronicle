@@ -55,7 +55,11 @@ impl<'a> GitCollector<'a> {
             // For ".", use the current directory name
             std::env::current_dir()
                 .ok()
-                .and_then(|p| p.file_name().and_then(|n| n.to_str()).map(|s| s.to_string()))
+                .and_then(|p| {
+                    p.file_name()
+                        .and_then(|n| n.to_str())
+                        .map(|s| s.to_string())
+                })
                 .unwrap_or_else(|| "unknown".to_string())
         } else if let Some(name) = repo_path.file_name().and_then(|n| n.to_str()) {
             name.to_string()
