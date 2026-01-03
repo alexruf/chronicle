@@ -1,3 +1,4 @@
+use assert_cmd::cargo;
 use predicates::prelude::*;
 use std::fs;
 use std::process::Command as StdCommand;
@@ -59,8 +60,7 @@ fn test_config_init() {
     let temp_dir = TempDir::new().unwrap();
     let config_path = temp_dir.path().join("chronicle.toml");
 
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["config", "init", "--path", config_path.to_str().unwrap()])
         .assert()
         .success()
@@ -76,8 +76,7 @@ fn test_state_reset() {
     let state_file = temp_dir.path().join(".chronicle-state.json");
 
     // Create config
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["config", "init", "--path", config_path.to_str().unwrap()])
         .assert()
         .success();
@@ -98,8 +97,7 @@ fn test_state_reset() {
     .unwrap();
 
     // Reset state
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["state", "reset", "--config", config_path.to_str().unwrap()])
         .assert()
         .success()
@@ -118,8 +116,7 @@ fn test_gen_dry_run() {
     let config_path = temp_dir.path().join("chronicle.toml");
 
     // Create config
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["config", "init", "--path", config_path.to_str().unwrap()])
         .assert()
         .success();
@@ -133,8 +130,7 @@ fn test_gen_dry_run() {
     fs::write(&config_path, updated_config).unwrap();
 
     // Run gen with dry-run
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args([
             "gen",
             "--config",
@@ -159,8 +155,7 @@ fn test_gen_and_show_latest() {
     let chronicles_dir = temp_dir.path().join("chronicles");
 
     // Create config
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["config", "init", "--path", config_path.to_str().unwrap()])
         .assert()
         .success();
@@ -179,8 +174,7 @@ fn test_gen_and_show_latest() {
     fs::write(&config_path, updated_config).unwrap();
 
     // Run gen
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["gen", "--config", config_path.to_str().unwrap()])
         .assert()
         .success()
@@ -195,8 +189,7 @@ fn test_gen_and_show_latest() {
     assert_eq!(files.len(), 1);
 
     // Run show latest
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["show", "latest", "--config", config_path.to_str().unwrap()])
         .assert()
         .success()
@@ -223,8 +216,7 @@ fn test_gen_with_todos() {
     .unwrap();
 
     // Create config
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["config", "init", "--path", config_path.to_str().unwrap()])
         .assert()
         .success();
@@ -243,15 +235,13 @@ fn test_gen_with_todos() {
     fs::write(&config_path, updated_config).unwrap();
 
     // Run gen
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["gen", "--config", config_path.to_str().unwrap()])
         .assert()
         .success();
 
     // Verify TODOs are in output
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["show", "latest", "--config", config_path.to_str().unwrap()])
         .assert()
         .success()
@@ -272,8 +262,7 @@ fn test_incremental_updates() {
     let chronicles_dir = temp_dir.path().join("chronicles");
 
     // Create config
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["config", "init", "--path", config_path.to_str().unwrap()])
         .assert()
         .success();
@@ -292,8 +281,7 @@ fn test_incremental_updates() {
     fs::write(&config_path, updated_config).unwrap();
 
     // First gen
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args(["gen", "--config", config_path.to_str().unwrap()])
         .assert()
         .success();
@@ -313,8 +301,7 @@ fn test_incremental_updates() {
 
     // Second gen with new date
     let tomorrow = chrono::Local::now().date_naive() + chrono::Duration::days(1);
-    assert_cmd::Command::cargo_bin("chronicle")
-        .unwrap()
+    cargo::cargo_bin_cmd!("chronicle")
         .args([
             "gen",
             "--config",
