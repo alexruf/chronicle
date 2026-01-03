@@ -43,3 +43,7 @@ chronicle.toml
 *~
 *.swp
 *.swo
+
+# AI coding agent context (keep AGENTS.md, ignore tool-specific files)
+/.claude/
+CLAUDE.md
