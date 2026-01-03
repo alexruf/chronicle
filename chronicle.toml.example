@@ -1,0 +1,41 @@
+# Chronicle Configuration Example
+# Copy this file to chronicle.toml and customize for your environment
+
+# Directory where chronicle markdown files will be generated
+output_dir = "chronicles"
+
+# File to track state between runs (detects changes)
+state_file = ".chronicle-state.json"
+
+# Git repositories to track
+# Add paths to local repositories you want to monitor
+[[repos]]
+path = "/path/to/your/repo"
+
+[[repos]]
+path = "/path/to/another/repo"
+
+# TODO/Inbox files to track
+# Supports plain text files with TODO items
+todo_files = [
+    "~/Documents/TODO.md",
+    "~/Documents/Inbox.txt",
+]
+
+# Directories containing notes to track
+# Will monitor markdown and text files for changes
+notes_dirs = [
+    "~/Documents/notes",
+    "~/Documents/journal",
+]
+
+# Output limits to keep chronicles focused
+[limits]
+max_commits = 50              # Maximum commits to show per chronicle
+max_changed_files = 80        # Maximum changed files to list
+max_note_files = 30           # Maximum note files to include
+max_chars_per_item = 2000     # Maximum characters per item
+
+# Display preferences
+[display]
+show_authors = true           # Show commit authors in output
