@@ -64,8 +64,10 @@ fn print_plain(markdown: &str) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use serial_test::serial;
 
     #[test]
+    #[serial]
     fn test_print_markdown_plain_fallback() {
         // Set NO_COLOR to force plain output
         std::env::set_var("NO_COLOR", "1");
