@@ -151,6 +151,13 @@ Chronicle tracks state to show only new changes since the last run. To reset:
 chronicle state reset
 ```
 
+### Version Information
+
+```bash
+# Display current version
+chronicle --version
+```
+
 ## How It Works
 
 ### State Tracking
