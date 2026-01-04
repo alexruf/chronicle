@@ -47,9 +47,9 @@ pub fn run(
     };
 
     // Determine which collectors to run
-    let run_git = only.as_deref().map_or(true, |s| s.contains("git"));
-    let run_todos = only.as_deref().map_or(true, |s| s.contains("todos"));
-    let run_notes = only.as_deref().map_or(true, |s| s.contains("notes"));
+    let run_git = only.as_deref().is_none_or(|s| s.contains("git"));
+    let run_todos = only.as_deref().is_none_or(|s| s.contains("todos"));
+    let run_notes = only.as_deref().is_none_or(|s| s.contains("notes"));
 
     // Run collectors
     let repositories = if run_git {

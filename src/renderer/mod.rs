@@ -105,7 +105,7 @@ impl<'a> Renderer<'a> {
         output.push_str("## Git Activity\n");
 
         for repo in repositories {
-            output.push_str("\n");
+            output.push('\n');
             output.push_str(&self.render_repository(repo));
         }
 
@@ -133,7 +133,7 @@ impl<'a> Renderer<'a> {
 
         for branch in &sorted_branches {
             output.push_str(&self.render_branch(branch, &repo.default_branch));
-            output.push_str("\n");
+            output.push('\n');
         }
 
         output
@@ -181,7 +181,7 @@ impl<'a> Renderer<'a> {
                 branch.commits.iter().flat_map(|c| &c.files).collect();
 
             if !all_files.is_empty() {
-                output.push_str("\n");
+                output.push('\n');
                 output.push_str(
                     &self.render_changed_files(&all_files.into_iter().collect::<Vec<_>>()),
                 );
@@ -237,7 +237,7 @@ impl<'a> Renderer<'a> {
         }
 
         for (file, file_todos) in todos_by_file {
-            output.push_str("\n");
+            output.push('\n');
             output.push_str(&format!("### `{}`\n\n", file.display()));
 
             for todo in file_todos {
@@ -274,7 +274,7 @@ impl<'a> Renderer<'a> {
 
         for note in notes {
             output.push_str(&self.render_note(note));
-            output.push_str("\n");
+            output.push('\n');
         }
 
         output
