@@ -1,5 +1,10 @@
 # Chronicle
 
+![CI](https://github.com/alexruf/chronicle/workflows/CI/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Rust 1.70+](https://img.shields.io/badge/rust-1.70%2B-orange)
+![GitHub Release](https://img.shields.io/github/v/release/alexruf/chronicle?style=flat)
+
 A Rust CLI tool that generates daily chronicles from your local development activity. Track Git commits, TODO changes, and notes in one consolidated daily log.
 
 ## What is Chronicle?
