@@ -31,8 +31,10 @@ pub fn should_use_colors() -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use serial_test::serial;
 
     #[test]
+    #[serial]
     fn test_no_color_disables() {
         // Clean environment first
         std::env::remove_var("CLICOLOR_FORCE");
@@ -44,6 +46,7 @@ mod tests {
     }
 
     #[test]
+    #[serial]
     fn test_clicolor_force_enables() {
         // Clean environment first
         std::env::remove_var("NO_COLOR");
@@ -55,6 +58,7 @@ mod tests {
     }
 
     #[test]
+    #[serial]
     fn test_no_color_overrides_force() {
         // Clean environment first
         std::env::remove_var("CLICOLOR");
@@ -67,6 +71,7 @@ mod tests {
     }
 
     #[test]
+    #[serial]
     fn test_clicolor_zero_disables() {
         // Clean environment first
         std::env::remove_var("NO_COLOR");

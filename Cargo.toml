@@ -18,6 +18,7 @@ termimad = "0.34"
 tempfile = "3.24"
 assert_cmd = "2.1"
 predicates = "3.1"
+serial_test = "3.2"
 
 [lints.clippy]
 correctness = "deny"

@@ -1,7 +1,9 @@
 use assert_cmd::cargo;
+use serial_test::serial;
 use tempfile::TempDir;
 
 #[test]
+#[serial]
 fn test_gen_dry_run_with_no_color() {
     let temp_dir = TempDir::new().unwrap();
     let config_path = temp_dir.path().join("chronicle.toml");
@@ -26,6 +28,7 @@ fn test_gen_dry_run_with_no_color() {
 }
 
 #[test]
+#[serial]
 fn test_gen_dry_run_with_clicolor_force() {
     let temp_dir = TempDir::new().unwrap();
     let config_path = temp_dir.path().join("chronicle.toml");
