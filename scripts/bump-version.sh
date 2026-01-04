@@ -112,8 +112,8 @@ fi
 # Update Cargo.toml
 # Using sed with -i flag (note: macOS and Linux differ slightly)
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS
-    sed -i '' "s/^version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" "$CARGO_TOML"
+    # macOS - no space between -i and empty string
+    sed -i'' -e "s/^version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" "$CARGO_TOML"
 else
     # Linux
     sed -i "s/^version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" "$CARGO_TOML"
