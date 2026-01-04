@@ -110,14 +110,8 @@ if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
 fi
 
 # Update Cargo.toml
-# Using sed with -i flag (note: macOS and Linux differ slightly)
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS - no space between -i and empty string
-    sed -i'' -e "s/^version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" "$CARGO_TOML"
-else
-    # Linux
-    sed -i "s/^version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" "$CARGO_TOML"
-fi
+# Using portable sed approach with temporary file (works on all platforms)
+sed "s/^version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" "$CARGO_TOML" > "$CARGO_TOML.tmp" && mv "$CARGO_TOML.tmp" "$CARGO_TOML"
 
 # Verify the change
 NEW_VERSION_CHECK=$(grep '^version = ' "$CARGO_TOML" | head -n1 | sed 's/version = "\(.*\)"/\1/')
