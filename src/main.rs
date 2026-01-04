@@ -13,6 +13,7 @@ use std::path::PathBuf;
 #[derive(Parser)]
 #[command(name = "chronicle")]
 #[command(about = "Generate daily chronicles from Git, TODOs, and notes", long_about = None)]
+#[command(version)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
