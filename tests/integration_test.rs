@@ -321,3 +321,21 @@ fn test_incremental_updates() {
     let files_count = fs::read_dir(&chronicles_dir).unwrap().count();
     assert_eq!(files_count, 2);
 }
+
+#[test]
+fn test_version_flag() {
+    cargo::cargo_bin_cmd!("chronicle")
+        .arg("--version")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(env!("CARGO_PKG_VERSION")));
+}
+
+#[test]
+fn test_version_short_flag() {
+    cargo::cargo_bin_cmd!("chronicle")
+        .arg("-V")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(env!("CARGO_PKG_VERSION")));
+}
