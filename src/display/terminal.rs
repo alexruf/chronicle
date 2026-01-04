@@ -34,6 +34,10 @@ mod tests {
 
     #[test]
     fn test_no_color_disables() {
+        // Clean environment first
+        std::env::remove_var("CLICOLOR_FORCE");
+        std::env::remove_var("CLICOLOR");
+
         std::env::set_var("NO_COLOR", "1");
         assert_eq!(should_use_colors(), false);
         std::env::remove_var("NO_COLOR");
@@ -41,6 +45,10 @@ mod tests {
 
     #[test]
     fn test_clicolor_force_enables() {
+        // Clean environment first
+        std::env::remove_var("NO_COLOR");
+        std::env::remove_var("CLICOLOR");
+
         std::env::set_var("CLICOLOR_FORCE", "1");
         assert_eq!(should_use_colors(), true);
         std::env::remove_var("CLICOLOR_FORCE");
@@ -48,6 +56,9 @@ mod tests {
 
     #[test]
     fn test_no_color_overrides_force() {
+        // Clean environment first
+        std::env::remove_var("CLICOLOR");
+
         std::env::set_var("NO_COLOR", "1");
         std::env::set_var("CLICOLOR_FORCE", "1");
         assert_eq!(should_use_colors(), false);
@@ -57,6 +68,10 @@ mod tests {
 
     #[test]
     fn test_clicolor_zero_disables() {
+        // Clean environment first
+        std::env::remove_var("NO_COLOR");
+        std::env::remove_var("CLICOLOR_FORCE");
+
         std::env::set_var("CLICOLOR", "0");
         assert_eq!(should_use_colors(), false);
         std::env::remove_var("CLICOLOR");

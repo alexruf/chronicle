@@ -14,12 +14,28 @@ Each chronicle shows only what changed since the last run, making it easy to rev
 
 ## Installation
 
-### Prerequisites
+### Pre-built Binaries
 
-- Rust 1.70 or later
-- Git (for repository tracking)
+Download the latest release for your platform from the [releases page](https://github.com/alexruf/chronicle/releases):
+
+- **macOS** (Apple Silicon): `chronicle-vX.X.X-aarch64-apple-darwin.tar.gz`
+- **Linux** (x86_64): `chronicle-vX.X.X-x86_64-unknown-linux-gnu.tar.gz`
+- **Windows** (x86_64): `chronicle-vX.X.X-x86_64-pc-windows-msvc.zip`
+
+Each release includes SHA256 checksums for verification.
+
+### Homebrew (macOS)
+
+```bash
+brew tap alexruf/tap
+brew install chronicle
+```
 
 ### Building from Source
+
+**Prerequisites:**
+- Rust 1.70 or later
+- Git
 
 ```bash
 # Clone the repository

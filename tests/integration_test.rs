@@ -4,6 +4,11 @@ use std::fs;
 use std::process::Command as StdCommand;
 use tempfile::TempDir;
 
+/// Helper to convert path to forward slashes for TOML compatibility on Windows
+fn path_to_toml_string(path: &std::path::Path) -> String {
+    path.display().to_string().replace('\\', "/")
+}
+
 /// Helper to create a test Git repository with commits
 fn create_test_git_repo(path: &std::path::Path) {
     // Initialize Git repo
@@ -85,7 +90,7 @@ fn test_state_reset() {
     let config_content = fs::read_to_string(&config_path).unwrap();
     let updated_config = config_content.replace(
         "state_file = \"./.chronicle-state.json\"",
-        &format!("state_file = \"{}\"", state_file.display()),
+        &format!("state_file = \"{}\"", path_to_toml_string(&state_file)),
     );
     fs::write(&config_path, updated_config).unwrap();
 
@@ -125,7 +130,7 @@ fn test_gen_dry_run() {
     let config_content = fs::read_to_string(&config_path).unwrap();
     let updated_config = config_content.replace(
         "repos = [\".\"]",
-        &format!("repos = [\"{}\"]", repo_path.display()),
+        &format!("repos = [\"{}\"]", path_to_toml_string(&repo_path)),
     );
     fs::write(&config_path, updated_config).unwrap();
 
@@ -165,11 +170,11 @@ fn test_gen_and_show_latest() {
     let updated_config = config_content
         .replace(
             "output_dir = \"./chronicles\"",
-            &format!("output_dir = \"{}\"", chronicles_dir.display()),
+            &format!("output_dir = \"{}\"", path_to_toml_string(&chronicles_dir)),
         )
         .replace(
             "repos = [\".\"]",
-            &format!("repos = [\"{}\"]", repo_path.display()),
+            &format!("repos = [\"{}\"]", path_to_toml_string(&repo_path)),
         );
     fs::write(&config_path, updated_config).unwrap();
 
@@ -226,11 +231,11 @@ fn test_gen_with_todos() {
     let updated_config = config_content
         .replace(
             "output_dir = \"./chronicles\"",
-            &format!("output_dir = \"{}\"", chronicles_dir.display()),
+            &format!("output_dir = \"{}\"", path_to_toml_string(&chronicles_dir)),
         )
         .replace(
             "todo_files = []",
-            &format!("todo_files = [\"{}\"]", todo_file.display()),
+            &format!("todo_files = [\"{}\"]", path_to_toml_string(&todo_file)),
         );
     fs::write(&config_path, updated_config).unwrap();
 
@@ -272,11 +277,11 @@ fn test_incremental_updates() {
     let updated_config = config_content
         .replace(
             "output_dir = \"./chronicles\"",
-            &format!("output_dir = \"{}\"", chronicles_dir.display()),
+            &format!("output_dir = \"{}\"", path_to_toml_string(&chronicles_dir)),
         )
         .replace(
             "repos = [\".\"]",
-            &format!("repos = [\"{}\"]", repo_path.display()),
+            &format!("repos = [\"{}\"]", path_to_toml_string(&repo_path)),
         );
     fs::write(&config_path, updated_config).unwrap();
 
