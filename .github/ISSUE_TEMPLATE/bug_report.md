@@ -22,7 +22,7 @@ assignees: ''
 ## Environment
 - OS:
 - Rust version: <!-- `rustc --version` -->
-- Chronicle version:
+- Chronicle version: <!-- `chronicle --version` -->
 
 ## Error Output
 ```
